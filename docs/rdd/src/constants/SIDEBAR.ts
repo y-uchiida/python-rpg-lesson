@@ -27,4 +27,8 @@ export const SIDEBAR = [
     text: '開発パート06: ラスボスダンジョン機能を追加する',
     link: '/lessons/lesson-06',
   },
+  {
+    text: '開発パート07: ステータスアップアイテムを実装する',
+    link: '/lessons/lesson-07',
+  },
 ];
