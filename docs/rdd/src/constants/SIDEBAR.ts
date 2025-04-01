@@ -43,4 +43,8 @@ export const SIDEBAR = [
     text: '開発パート10: 敵キャラクターを仲間にする機能を実装する',
     link: '/lessons/lesson-10',
   },
+  {
+    text: '開発パート11: キャラクターの進化機能を実装する',
+    link: '/lessons/lesson-11',
+  },
 ];
