@@ -47,4 +47,8 @@ export const SIDEBAR = [
     text: '開発パート11: キャラクターの進化機能を実装する',
     link: '/lessons/lesson-11',
   },
+  {
+    text: '開発パート12: アイテム装備機能を実装する',
+    link: '/lessons/lesson-12',
+  },
 ];
