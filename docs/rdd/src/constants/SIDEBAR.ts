@@ -23,4 +23,8 @@ export const SIDEBAR = [
     text: '開発パート05: レベルアップ機能を追加する',
     link: '/lessons/lesson-05',
   },
+  {
+    text: '開発パート06: ラスボスダンジョン機能を追加する',
+    link: '/lessons/lesson-06',
+  },
 ];
