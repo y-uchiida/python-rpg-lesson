@@ -39,4 +39,8 @@ export const SIDEBAR = [
     text: '開発パート09: キャラクターごとに特殊技を実装する',
     link: '/lessons/lesson-09',
   },
+  {
+    text: '開発パート10: 敵キャラクターを仲間にする機能を実装する',
+    link: '/lessons/lesson-10',
+  },
 ];
