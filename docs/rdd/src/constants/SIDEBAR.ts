@@ -31,4 +31,8 @@ export const SIDEBAR = [
     text: '開発パート07: ステータスアップアイテムを実装する',
     link: '/lessons/lesson-07',
   },
+  {
+    text: '開発パート08: 所持金機能とアイテム購入を実装する',
+    link: '/lessons/lesson-08',
+  },
 ];
