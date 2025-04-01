@@ -35,4 +35,8 @@ export const SIDEBAR = [
     text: '開発パート08: 所持金機能とアイテム購入を実装する',
     link: '/lessons/lesson-08',
   },
+  {
+    text: '開発パート09: キャラクターごとに特殊技を実装する',
+    link: '/lessons/lesson-09',
+  },
 ];
