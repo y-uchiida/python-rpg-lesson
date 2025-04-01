@@ -1,0 +1,31 @@
+// https://aka.ms/devcontainer.json
+{
+  "name": "python-rpg-lesson",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mhutchie.git-graph",
+        "bmewburn.vscode-intelephense-client",
+        "yzhang.markdown-all-in-one",
+        "DavidAnson.vscode-markdownlint",
+        "vivaxy.vscode-conventional-commits",
+        "mikestead.dotenv",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {}
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "remoteUser": "vscode",
+  "postCreateCommand": "sh ./.devcontainer/postCreateCommand.sh"
+  // "forwardPorts": [],
+  // "runServices": [],
+  // "shutdownAction": "none",
+}

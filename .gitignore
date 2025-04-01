@@ -1,0 +1,12 @@
+.env
+!.env.example
+
+# vscode 設定のうち、共有すべきものは追跡に含める
+/.vscode/*
+!/.vscode/extensions.json
+!/.vscode/settings.json
+!/.vscode/launch.json
+
+# Sveltekit
+.svelte-kit
+.sveltepress
