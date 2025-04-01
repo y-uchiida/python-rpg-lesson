@@ -51,4 +51,8 @@ export const SIDEBAR = [
     text: '開発パート12: アイテム装備機能を実装する',
     link: '/lessons/lesson-12',
   },
+  {
+    text: '更新履歴',
+    link: '/change-history',
+  },
 ];
