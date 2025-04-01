@@ -2,6 +2,7 @@
   "conventionalCommits.scopes": [
     "Docker",
     "Document",
-    "VitePress"
+    "VitePress",
+    "Document"
   ]
 }
