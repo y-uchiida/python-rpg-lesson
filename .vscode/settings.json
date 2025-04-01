@@ -1,3 +1,7 @@
 {
-  "conventionalCommits.scopes": ["Docker", "Document", "Sveltepress"]
+  "conventionalCommits.scopes": [
+    "Docker",
+    "Document",
+    "VitePress"
+  ]
 }

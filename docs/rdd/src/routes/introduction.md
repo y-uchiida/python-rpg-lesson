@@ -1,7 +1,3 @@
----
-lastUpdate: false
----
-
 # Python でつくるコマンドラインRPG
 
 ## この資料の目的

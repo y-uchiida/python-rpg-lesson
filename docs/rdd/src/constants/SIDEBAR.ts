@@ -1,14 +1,10 @@
-import { title } from "process";
-
-export const SIDEBAR = {
-	'nav': [
-		{
-			title: '初めに',
-			to: '/introduction',
-		},
-		{
-			title: '更新履歴',
-			to: '/change-history',
-		},
-	],
-}
+export const SIDEBAR = [
+	{
+		text: 'はじめに',
+		link: '/introduction',
+	},
+	{
+		text: '更新履歴',
+		link: '/change-history',
+	},
+];

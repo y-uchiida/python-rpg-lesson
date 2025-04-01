@@ -1,20 +1,19 @@
 export const NAVBAR = [
-	{
-		title: 'Foo page',
-		to: '/foo/'
-	},
-	{
-		title: 'With dropdown',
-		items: [
-			{
-				title: 'Bar page',
-				to: '/bar/'
-			},
-			{
-				title: 'External Github page',
-				to: 'https://github.com/',
-				external: true
-			}
-		]
-	}
+	// {
+	// 	text: 'Foo page',
+	// 	link: '/foo/'
+	// },
+	// {
+	// 	text: 'Bar page',
+	// 	items: [
+	// 		{
+	// 			text: 'Bar page',
+	// 			link: '/bar/'
+	// 		},
+	// 		{
+	// 			text: 'External Github page',
+	// 			link: 'https://github.com/'
+	// 		}
+	// 	]
+	// }
 ]

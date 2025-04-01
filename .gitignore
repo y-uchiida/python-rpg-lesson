@@ -7,7 +7,6 @@
 !/.vscode/settings.json
 !/.vscode/launch.json
 
-# Sveltekit
-.svelte-kit
-.sveltepress
+# VitePress
+**/.vitepress/cache
 node_modules
