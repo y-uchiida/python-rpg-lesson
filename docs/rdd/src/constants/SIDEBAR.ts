@@ -19,4 +19,8 @@ export const SIDEBAR = [
     text: '開発パート04: 戦闘中のコマンド選択機能を実装する',
     link: '/lessons/lesson-04',
   },
+  {
+    text: '開発パート05: レベルアップ機能を追加する',
+    link: '/lessons/lesson-05',
+  },
 ];
