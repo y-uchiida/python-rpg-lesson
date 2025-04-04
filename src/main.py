@@ -1,26 +1,57 @@
 from mymonster import MyMonster
 from enemymonster import EnemyMonster
+from field import Field
 
-def main():
-    # 味方キャラクターと敵キャラクターを作成
-    me = MyMonster(name="味方キャラ", hp=100, max_hp=100, strength=20, defense=5)
-
+def battle(party, field):
     while True:
-        enemy = EnemyMonster(name="敵キャラ", hp=80, max_hp=80, strength=15, defense=3)
+        # 次に戦闘可能な味方キャラクターを取得
+        battler = next((monster for monster in party if not monster.is_defeated), None)
+        if not battler:
+            print("味方キャラクターが全滅しました。ゲームオーバーです。")
+            return False
+
+        # 次に戦闘可能な敵キャラクターを取得
+        enemy = next((monster for monster in field.enemies if not monster.is_defeated), None)
+        if not enemy:
+            print("敵キャラクターを全て倒しました！")
+            return True
 
         # 戦闘ループ
-        while True:
-            me.attack(enemy)
+        while not battler.is_defeated and not enemy.is_defeated:
+            battler.attack(enemy)
             if enemy.is_defeated:
-                print("戦闘に勝利しました！")
                 break
-            enemy.attack(me)
-            if me.is_defeated:
-                print("戦闘に敗北しました...")
-                return
+            enemy.attack(battler)
+            if battler.is_defeated:
+                break
+
+    return True
+
+def main():
+    # 味方キャラクターの作成
+    party = [
+        MyMonster(name="味方キャラ1", hp=100, max_hp=100, strength=20, defense=5),
+        MyMonster(name="味方キャラ2", hp=80, max_hp=80, strength=18, defense=4)
+    ]
+
+    while True:
+        # フィールドと敵キャラクターの作成
+        field = Field([
+            EnemyMonster(name="敵キャラ1", hp=80, max_hp=80, strength=15, defense=3),
+            EnemyMonster(name="敵キャラ2", hp=90, max_hp=90, strength=17, defense=4)
+        ])
+
+        # 戦闘処理
+        if not battle(party, field):
+            return  # ゲーム終了
 
         # 戦闘終了後の選択肢
         while True:
+            for monster in party:
+                if monster.is_defeated:
+                    print(f"{monster.name} は戦闘不能です。")
+                else:
+                    print(f"{monster.name} の体力: {monster.hp}/{monster.max_hp}")
             print("\n次の行動を選択してください:")
             print("1: 次の戦闘を開始する")
             print("2: 休憩して体力を回復する")
@@ -30,8 +61,9 @@ def main():
             if choice == "1":
                 break  # 次の戦闘を開始
             elif choice == "2":
-                me.hp = me.max_hp
-                print(f"{me.name} の体力が全回復しました！")
+                for monster in party:
+                    monster.hp = monster.max_hp
+                print("味方キャラクターの体力が全回復しました！")
             elif choice == "3":
                 print("ゲームを終了します。")
                 return
