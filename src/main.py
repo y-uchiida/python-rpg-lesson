@@ -18,14 +18,49 @@ def battle(party, field):
 
         # 戦闘ループ
         while not hero.is_defeated and not enemy.is_defeated:
-            hero.attack(enemy)
-            if enemy.is_defeated:
-                print(f"{enemy.name} を倒しました！")
-                break
-            enemy.attack(hero)
-            if hero.is_defeated:
-                print(f"{hero.name} が倒されました...")
-                break
+            print("\n次の行動を選択してください:")
+            print("1: たたかう")
+            print("2: にげる")
+            print("3: 交代")
+            choice = input("選択肢を入力してください (1/2/3): ")
+
+            if choice == "1":
+                # たたかう
+                hero.attack(enemy)
+                if enemy.is_defeated:
+                    print(f"{enemy.name} を倒しました！")
+                    break
+                enemy.attack(hero)
+                if hero.is_defeated:
+                    print(f"{hero.name} が倒されました...")
+                    break
+            elif choice == "2":
+                # にげる
+                print("戦闘から逃げました！")
+                return True  # 戦闘終了後の選択肢に遷移
+            elif choice == "3":
+                # 交代
+                available_monsters = [monster for monster in party if not monster.is_defeated and monster != hero]
+                if available_monsters:
+                    print("交代可能なキャラクター:")
+                    for i, monster in enumerate(available_monsters, start=1):
+                        print(f"{i}: {monster.name} (体力: {monster.hp}/{monster.max_hp})")
+                    try:
+                        selected_index = int(input("交代するキャラクターの番号を入力してください: ")) - 1
+                        if 0 <= selected_index < len(available_monsters):
+                            new_hero = available_monsters[selected_index]
+                            party.remove(new_hero)
+                            party.insert(0, new_hero)
+                            print(f"{new_hero.name} が戦闘に参加します！")
+                            hero = new_hero
+                        else:
+                            print("無効な番号です。")
+                    except ValueError:
+                        print("無効な入力です。番号を入力してください。")
+                else:
+                    print("交代できるキャラクターがいません！")
+            else:
+                print("無効な入力です。1, 2, または 3 を入力してください。")
 
     return True
 
