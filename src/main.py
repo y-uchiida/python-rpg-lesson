@@ -1,11 +1,12 @@
 from MyMonster import MyMonster
 from EnemyMonster import EnemyMonster
 from Field import Field
+from Party import Party
 
 def battle(party, field):
-    while party and field.enemies:
+    while True:
         # 次に戦闘可能な味方キャラクターを取得
-        battler = next((monster for monster in party if not monster.is_defeated), None)
+        battler = next((monster for monster in party.members if not monster.is_defeated), None)
         if not battler:
             print("味方キャラクターが全滅しました。ゲームオーバーです。")
             return False
@@ -14,6 +15,8 @@ def battle(party, field):
         enemy = next((monster for monster in field.enemies if not monster.is_defeated), None)
         if not enemy:
             print("敵キャラクターを全て倒しました！")
+            for monster in party.members:
+                monster.gain_experience(50)  # 経験値を付与
             return True
 
         # 戦闘ループ
@@ -40,7 +43,7 @@ def battle(party, field):
                 return True  # 戦闘終了後の選択肢に遷移
             elif choice == "3":
                 # 交代
-                available_monsters = [monster for monster in party if not monster.is_defeated and monster != battler]
+                available_monsters = [monster for monster in party.members if not monster.is_defeated and monster != battler]
                 if available_monsters:
                     print("交代可能なキャラクター:")
                     for i, monster in enumerate(available_monsters, start=1):
@@ -49,8 +52,8 @@ def battle(party, field):
                         selected_index = int(input("交代するキャラクターの番号を入力してください: ")) - 1
                         if 0 <= selected_index < len(available_monsters):
                             new_battler = available_monsters[selected_index]
-                            party.remove(new_battler)
-                            party.insert(0, new_battler)
+                            party.members.remove(new_battler)
+                            party.members.insert(0, new_battler)
                             print(f"{new_battler.name} が戦闘に参加します！")
                             battler = new_battler
                         else:
@@ -66,10 +69,10 @@ def battle(party, field):
 
 def main():
     # 味方キャラクターの作成
-    party = [
+    party = Party([
         MyMonster(name="味方キャラ1", hp=100, max_hp=100, strength=20, defense=5),
         MyMonster(name="味方キャラ2", hp=80, max_hp=80, strength=18, defense=4)
-    ]
+    ])
 
     while True:
         # フィールドと敵キャラクターの作成
@@ -84,7 +87,7 @@ def main():
 
         # 戦闘終了後の選択肢
         while True:
-            for monster in party:
+            for monster in party.members:
                 if monster.is_defeated:
                     print(f"{monster.name} は戦闘不能です。")
                 else:
@@ -98,7 +101,7 @@ def main():
             if choice == "1":
                 break  # 次の戦闘を開始
             elif choice == "2":
-                for monster in party:
+                for monster in party.members:
                     monster.hp = monster.max_hp
                 print("味方キャラクターの体力が全回復しました！")
             elif choice == "3":
