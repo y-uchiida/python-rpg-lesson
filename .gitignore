@@ -10,3 +10,7 @@
 # VitePress
 **/.vitepress/cache
 node_modules
+
+# Python
+__pycache__/
+*.py[cod]
