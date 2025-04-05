@@ -24,6 +24,15 @@ def battle(party, field):
         enemy = next((monster for monster in field.enemies if not monster.is_defeated), None)
         if not enemy:
             print("敵キャラクターを全て倒しました！")
+            # お金の獲得(最大10000)
+            party.gold += 100
+            if party.gold > 10000:
+                party.gold = 10000
+            print("お金を獲得しました！")
+            print(f"獲得したお金: 100")
+            print(f"所持金: {party.gold}")
+
+            # 経験値の獲得
             for monster in party.members:
                 monster.gain_experience(50)  # 経験値を付与
             battle_clear_count += 1  # 戦闘クリア回数を増加
@@ -133,6 +142,58 @@ def choice_dungeon():
             print("無効な入力です。'y' または 'n' を入力してください。")
             continue
 
+def shop(party):
+    """
+    アイテムショップの関数。
+    アイテムを購入することができる。
+    """
+    print("アイテムショップにようこそ！")
+    shop_items = [
+        {"item": StrengthUpItem(), "price": 50},
+        {"item": DefenseUpItem(), "price": 50}
+    ]
+    
+    while True:
+        # アイテムショップのアイテムを表示
+        for i, item_info in enumerate(shop_items, start=1):
+            print(f"{i}: {item_info['item'].name} (価格: {item_info['price']}ゴールド)")
+            
+        choice = input("購入するアイテムの番号を入力してください(入力なしで戻る): ")
+        try:
+            if choice == "":
+                print("アイテムショップを出ました")
+                return
+            selected_index = int(choice) - 1
+            if 0 <= selected_index < len(shop_items):
+                selected_item_info = shop_items[selected_index]
+                # アイテムの価格を確認
+                if party.gold < selected_item_info["price"]:
+                    print("ゴールドが足りません！")
+                    continue
+                
+                # 所有数が最大数を超えないか確認
+                item_in_storage = next(
+                    (item_in_storage for item_in_storage in party.item_storage if isinstance(item_in_storage.item, type(selected_item_info["item"]))),
+                    None
+                )
+                if item_in_storage and item_in_storage.item_count >= selected_item_info["item"].MAX_ITEM_NUM:
+                    print(f"{selected_item_info['item'].name} はこれ以上持てません！")
+                    continue
+
+                # アイテムを購入
+                party.gold -= selected_item_info["price"]
+                party.add_item_storage(selected_item_info["item"])
+                print(f"{selected_item_info['item'].name} を購入しました！")
+                print(f"残りゴールド: {party.gold}")
+
+            else:
+                print("無効なアイテム番号です。")
+                continue
+        except ValueError:
+            print("無効な入力です。番号を入力してください。")
+            continue
+            
+
 def main():
     global battle_clear_count, last_dungeon_cleared
 
@@ -152,8 +213,9 @@ def main():
         print("1: 次の戦闘を開始する")
         print("2: 休憩して体力を回復する")
         print("3: アイテムを使用する")
-        print("4: ゲームを終了する")
-        choice = input("選択肢を入力してください (1/2/3/4): ")
+        print("4: アイテム購入")
+        print("5: ゲームを終了する")
+        choice = input("選択肢を入力してください (1/2/3/4/5): ")
 
         if choice == "1":
             # ダンジョンを選択
@@ -195,6 +257,9 @@ def main():
                 except ValueError:
                     print("無効な入力です。番号を入力してください。")
         elif choice == "4":
+            shop(party)
+            continue
+        elif choice == "5":
             print("ゲームを終了します。")
             return
         else:

@@ -5,6 +5,7 @@ class Party:
     def __init__(self, members):
         self.members = members
         self.item_storage = []
+        self.gold = 0
 
     def add_item_storage(self, item):
         """
