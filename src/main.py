@@ -3,6 +3,9 @@ from enemymonster import EnemyMonster
 from field import Field
 from party import Party
 from lastdungeon import LastDungeon
+from random import random, choice
+from strengthupitem import StrengthUpItem
+from defenceupitem import DefenseUpItem
 
 battle_clear_count = 0 # 戦闘クリア回数
 last_dungeon_cleared = False  # 最後のダンジョンをクリアしたかどうかのフラグ
@@ -41,6 +44,8 @@ def battle(party, field):
                 # たたかう
                 battler.attack(enemy)
                 if enemy.is_defeated:
+                    # 敵キャラクターを倒した場合、アイテムの獲得判定を行う
+                    drop_item(party, enemy)
                     break
                 enemy.attack(battler)
                 if battler.is_defeated:
@@ -74,6 +79,24 @@ def battle(party, field):
                 print("無効な入力です。1, 2, または 3 を入力してください。")
 
     return True
+
+def drop_item(party, enemy):
+    """
+    敵キャラクターを倒した際にアイテムを獲得する関数。
+    アイテムの獲得確率は 50%。
+    獲得するアイテムはランダムで決定される。
+    """
+    item_drop_chance = random()
+    # if item_drop_chance < 0.5:
+    if True:
+        # 獲得するアイテムをランダムで決定
+        # choice() を使用して、アイテムのリストからランダムに選択
+        dropped_item = choice([StrengthUpItem(), DefenseUpItem()])
+        
+        # アイテムを追加
+        party.add_item_storage(dropped_item)
+
+        print(f"{enemy.name} が {dropped_item.name} をドロップしました！")
 
 def choice_dungeon():
     """
@@ -128,8 +151,9 @@ def main():
         print("\n次の行動を選択してください:")
         print("1: 次の戦闘を開始する")
         print("2: 休憩して体力を回復する")
-        print("3: ゲームを終了する")
-        choice = input("選択肢を入力してください (1/2/3): ")
+        print("3: アイテムを使用する")
+        print("4: ゲームを終了する")
+        choice = input("選択肢を入力してください (1/2/3/4): ")
 
         if choice == "1":
             # ダンジョンを選択
@@ -145,6 +169,32 @@ def main():
                 monster.hp = monster.max_hp
             print("味方キャラクターの体力が全回復しました！")
         elif choice == "3":
+            if len(party.item_storage) == 0:
+                print("使用可能なアイテムがありません！")
+            else:
+                print("使用可能なアイテム:")
+                for i, item_in_storage in enumerate(party.item_storage, start=1):
+                    print(f"{i}: {item_in_storage.item.name} (所持数: {item_in_storage.item_count}/{item_in_storage.item.MAX_ITEM_NUM})")
+                try:
+                    selected_index = int(input("使用するアイテムの番号を入力してください: ")) - 1
+                    if 0 <= selected_index < len(party.item_storage):
+                        selected_item = party.item_storage[selected_index]
+                        print("使用するキャラクターを選択してください:")
+                        for j, monster in enumerate(party.members, start=1):
+                            print(f"{j}: {monster.name} (体力: {monster.hp}/{monster.max_hp})")
+                        selected_monster_index = int(input("キャラクターの番号を入力してください: ")) - 1
+                        if 0 <= selected_monster_index < len(party.members):
+                            selected_monster = party.members[selected_monster_index]
+                            selected_item.item.use(selected_monster)
+                            print(f"{selected_item.item.name} を {selected_monster.name} に使用しました！")
+                            party.remove_item_storage(selected_item.item)
+                        else:
+                            print("無効なキャラクター番号です。")
+                    else:
+                        print("無効なアイテム番号です。")
+                except ValueError:
+                    print("無効な入力です。番号を入力してください。")
+        elif choice == "4":
             print("ゲームを終了します。")
             return
         else:
