@@ -24,6 +24,15 @@ def battle(party, field):
         enemy = next((monster for monster in field.enemies if not monster.is_defeated), None)
         if not enemy:
             print("敵キャラクターを全て倒しました！")
+            # お金の獲得(最大10000)
+            party.gold += 100
+            if party.gold > 10000:
+                party.gold = 10000
+            print("お金を獲得しました！")
+            print(f"獲得したお金: 100")
+            print(f"所持金: {party.gold}")
+
+            # 経験値の獲得
             for monster in party.members:
                 monster.gain_experience(50)  # 経験値を付与
             battle_clear_count += 1  # 戦闘クリア回数を増加
@@ -152,8 +161,9 @@ def main():
         print("1: 次の戦闘を開始する")
         print("2: 休憩して体力を回復する")
         print("3: アイテムを使用する")
-        print("4: ゲームを終了する")
-        choice = input("選択肢を入力してください (1/2/3/4): ")
+        print("4: アイテム購入")
+        print("5: ゲームを終了する")
+        choice = input("選択肢を入力してください (1/2/3/4/5): ")
 
         if choice == "1":
             # ダンジョンを選択
@@ -195,6 +205,30 @@ def main():
                 except ValueError:
                     print("無効な入力です。番号を入力してください。")
         elif choice == "4":
+            print("アイテムを購入します。")
+            available_items = [
+                {"item": StrengthUpItem(), "price": 50},
+                {"item": DefenseUpItem(), "price": 50}
+            ]
+            print("購入可能なアイテム:")
+            for i, item_info in enumerate(available_items, start=1):
+                print(f"{i}: {item_info['item'].name}(価格: {item_info['price']}ゴールド)")
+            try:
+                selected_index = int(input("購入するアイテムの番号を入力してください: ")) - 1
+                if 0 <= selected_index < len(available_items):
+                    selected_item_info = available_items[selected_index]
+                    if party.gold >= selected_item_info["price"]:
+                        party.gold -= selected_item_info["price"]
+                        party.add_item_storage(selected_item_info["item"])
+                        print(f"{selected_item_info['item'].name} を購入しました！")
+                        print(f"残りゴールド: {party.gold}")
+                    else:
+                        print("ゴールドが足りません！")
+                else:
+                    print("無効なアイテム番号です。")
+            except ValueError:
+                print("無効な入力です。番号を入力してください。")
+        elif choice == "5":
             print("ゲームを終了します。")
             return
         else:
