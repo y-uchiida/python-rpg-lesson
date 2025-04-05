@@ -1,5 +1,6 @@
-from mymonster import MyMonster
-from enemymonster import EnemyMonster
+from straycat import StrayCat
+from littlewizard import LittleWizard
+from killerbee import KillerBee
 from field import Field
 from party import Party
 from lastdungeon import LastDungeon
@@ -45,9 +46,10 @@ def battle(party, field):
         while True:
             print("\n次の行動を選択してください:")
             print("1: たたかう")
-            print("2: にげる")
-            print("3: 交代")
-            choice = input("選択肢を入力してください (1/2/3): ")
+            print("2: 特殊技")
+            print("3: にげる")
+            print("4: 交代")
+            choice = input("選択肢を入力してください (1/2/3/4): ")
 
             if choice == "1":
                 # たたかう
@@ -60,10 +62,19 @@ def battle(party, field):
                 if battler.is_defeated:
                     break
             elif choice == "2":
+                # 特殊技
+                battler.special_attack(enemy)
+                if enemy.is_defeated:
+                    drop_item(party, enemy)
+                    break
+                enemy.attack(battler)
+                if battler.is_defeated:
+                    break
+            elif choice == "3":
                 # にげる
                 print("戦闘から逃げました！")
                 return True  # 戦闘終了後の選択肢に遷移
-            elif choice == "3":
+            elif choice == "4":
                 # 交代
                 available_monsters = [monster for monster in party.members if not monster.is_defeated and monster != battler]
                 if available_monsters:
@@ -119,8 +130,8 @@ def choice_dungeon():
     # 戦闘クリア回数が既定回数以下の場合、通常ダンジョン(Field)を返す
     if battle_clear_count < 3:
         return Field([
-            EnemyMonster(name="通常敵キャラ1", hp=80, max_hp=80, strength=15, defense=3),
-            EnemyMonster(name="通常敵キャラ2", hp=90, max_hp=90, strength=17, defense=4)
+            StrayCat(hp=50, max_hp=50, strength=10, defense=2),
+            LittleWizard(hp=70, max_hp=70, strength=12, defense=3),
         ])
 
     # 最終ダンジョンの選択
@@ -129,14 +140,15 @@ def choice_dungeon():
         if choice.lower() == 'y':
             # 最終ダンジョンを選択
             return LastDungeon([
-                EnemyMonster(name="ラストダンジョンの敵1", hp=120, max_hp=120, strength=25, defense=6),
-                EnemyMonster(name="ラストダンジョンの敵2", hp=150, max_hp=150, strength=30, defense=8)
+                StrayCat(hp=50, max_hp=50, strength=10, defense=2),
+                LittleWizard(hp=70, max_hp=70, strength=12, defense=3),
             ])
         elif choice.lower() == 'n':
             # 通常ダンジョンを選択
             return Field([
-                EnemyMonster(name="通常敵キャラ1", hp=80, max_hp=80, strength=15, defense=3),
-                EnemyMonster(name="通常敵キャラ2", hp=90, max_hp=90, strength=17, defense=4)
+                StrayCat(hp=50, max_hp=50, strength=10, defense=2),
+                LittleWizard(hp=70, max_hp=70, strength=12, defense=3),
+                KillerBee(hp=100, max_hp=100, strength=15, defense=5)
             ])
         else:
             print("無効な入力です。'y' または 'n' を入力してください。")
@@ -199,8 +211,9 @@ def main():
 
     # 味方キャラクターの作成
     party = Party([
-        MyMonster(name="味方キャラ1", hp=100, max_hp=100, strength=2000, defense=5),
-        MyMonster(name="味方キャラ2", hp=80, max_hp=80, strength=1800, defense=4)
+        StrayCat(hp=100, max_hp=100, strength=20, defense=2),
+        LittleWizard(hp=80, max_hp=80, strength=15, defense=3),
+        KillerBee(hp=120, max_hp=120, strength=25, defense=5)
     ])
 
     while True:
