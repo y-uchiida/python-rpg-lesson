@@ -25,6 +25,8 @@ def battle(party, field):
                 monster.gain_experience(50)  # 経験値を付与
             battle_clear_count += 1  # 戦闘クリア回数を増加
             print(f"戦闘クリア回数: {battle_clear_count}")
+            if battle_clear_count == 3 and not last_dungeon_cleared:
+                print("最終ダンジョンに挑戦できるようになりました！")
             return True
 
         # 戦闘ループ
@@ -78,7 +80,7 @@ def choice_dungeon():
     ダンジョンの選択を行う関数。
     既定の戦闘回数をクリアしている場合は最終ダンジョンを選択するかの入力待ちをする。
     最終ダンジョンを選択した場合は、最終ダンジョンのオブジェクトを返す。
-    最終ダンジョンを選択しなかった場合又は既定のクリア回数を満たしていない場合は、通常のダンジョンを選択する。
+    最終ダンジョンを選択しなかった場合既定のクリア回数を満たしていない場合は、通常のダンジョンを選択する。
     """
     global battle_clear_count, last_dungeon_cleared
 
