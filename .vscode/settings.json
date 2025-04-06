@@ -3,7 +3,8 @@
     "Docker",
     "Document",
     "VitePress",
-    "Document"
+    "Document",
+    "GitHub"
   ],
   "markdownlint.config": {
     "MD013": false,
@@ -11,6 +12,6 @@
     "MD041": false,
     "MD007": {
       "indent": 2
-    },
-  },
+    }
+  }
 }

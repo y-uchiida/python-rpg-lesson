@@ -9,8 +9,13 @@
 
 # VitePress
 **/.vitepress/cache
+**/.vitepress/dist
 node_modules
 
 # Python
 __pycache__/
 *.py[cod]
+
+# dotenv
+.env
+!.env.example

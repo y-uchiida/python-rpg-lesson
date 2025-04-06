@@ -1,0 +1,8 @@
+{
+    "ref": "refs/heads/develop",
+    "ref_name": "develop",
+    "base_ref": "refs/heads/develop",
+    "push": {
+        "base_ref ": "refs/heads/develop"
+    }
+}
