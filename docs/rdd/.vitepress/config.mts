@@ -8,6 +8,7 @@ export default withMermaid({
   title: "Python でつくるコマンドラインRPG",
   description: "Python で 簡易的な RPG 実装するハンズオン教材",
   srcDir: "src/routes",
+  base: '/python-rpg-lesson/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: NAVBAR,
