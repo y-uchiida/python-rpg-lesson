@@ -1,0 +1,46 @@
+name: Build VitePress
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/rdd/**'
+  pull_request:
+    paths:
+      - 'docs/rdd/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          cd docs/rdd
+          npm install
+
+      # Build VitePress
+      - name: Build VitePress
+        run: |
+          cd docs/rdd
+          npm run build
+
+      # Upload build artifacts (optional)
+      - name: Upload build artifacts
+        if: ${{ !env.ACT }} # act 環境ではスキップ
+        uses: actions/upload-artifact@v3
+        with:
+          name: vitepress-site
+          path: docs/rdd/.vitepress/dist
